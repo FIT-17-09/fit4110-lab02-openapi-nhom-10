@@ -94,7 +94,7 @@ Mỗi nhóm cần chuẩn bị:
 | `analysis-provider.md` | `docs/` | Có |
 | `analysis-consumer.md` | `docs/` | Có |
 | `spectral-report.txt` | `evidence/buoi-02/` | Có |
-| 5 ảnh mock server | `evidence/buoi-02/mock-screenshots/` | Có |
+| 5 ảnh mock server | `evidence/buoi-02/screenshorts/` | Có |
 | `VERSIONING.md` | Thư mục gốc | Có cho BTVN |
 
 ---
@@ -252,7 +252,7 @@ Windows:
 Mỗi request lưu ảnh vào:
 
 ```text
-evidence/buoi-02/mock-screenshots/
+evidence/buoi-02/screenshorts/
 ```
 
 ---

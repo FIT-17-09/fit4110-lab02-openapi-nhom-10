@@ -1,3 +1,4 @@
-﻿27dc5a7 add deadline
+﻿0bd804f submit: completed and perfected lab 02 API contract and evidence with zero warnings
+27dc5a7 add deadline
 a4ee739 Revise dependency map and pairing matrix documentation
 41a4b1e Initial commit

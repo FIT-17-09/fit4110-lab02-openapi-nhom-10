@@ -14,7 +14,7 @@
 - [x] `spectral lint` không có severity error.
 - [x] Đã lưu `evidence/buoi-02/spectral-report.txt`.
 - [x] Prism mock server chạy được ở port 4010.
-- [x] Có 5 ảnh request mẫu trong `mock-screenshots/`.
+- [x] Có 5 ảnh request mẫu trong `screenshorts/`.
 - [x] `negotiation-log.md` có tối thiểu 6 issue.
 - [x] Có sign-off Provider, Consumer, Witness.
 - [x] Đã hoàn thiện `VERSIONING.md` cho bài tập về nhà.

@@ -29,7 +29,7 @@ negotiation-log.md
 docs/analysis-provider.md
 docs/analysis-consumer.md
 evidence/buoi-02/spectral-report.txt
-evidence/buoi-02/mock-screenshots/
+evidence/buoi-02/screenshorts/
 ```
 
 ### Nhóm thuộc cặp Queue async

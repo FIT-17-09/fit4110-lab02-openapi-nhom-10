@@ -24,7 +24,7 @@ negotiation-log.md
 docs/analysis-provider.md
 docs/analysis-consumer.md
 evidence/buoi-02/spectral-report.txt
-evidence/buoi-02/mock-screenshots/req-01-*.png ... req-05-*.png
+evidence/buoi-02/screenshorts/req-01-*.png ... req-05-*.png
 VERSIONING.md
 ```
 
@@ -76,7 +76,7 @@ FIT4110_lab02_openapi/
       README.md
       checklist.md
       known-issues.md
-      mock-screenshots/
+      screenshorts/
         .gitkeep
   scripts/
     install_lab02_cli.sh
@@ -299,7 +299,7 @@ Windows:
 Khi chụp minh chứng, ảnh cần có lệnh `curl`, status code và response body. Lưu ảnh vào:
 
 ```text
-evidence/buoi-02/mock-screenshots/
+evidence/buoi-02/screenshorts/
 ```
 
 ---

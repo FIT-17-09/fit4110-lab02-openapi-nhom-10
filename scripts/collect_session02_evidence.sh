@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mkdir -p evidence/buoi-02/mock-screenshots
+mkdir -p evidence/buoi-02/screenshorts
 
 echo "[Lab02] Collecting tool versions..."
 {

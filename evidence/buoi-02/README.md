@@ -12,7 +12,7 @@ evidence/buoi-02/
   spectral-report.txt
   tool-versions.txt
   git-log.txt
-  mock-screenshots/
+  screenshorts/
     req-01-*.png
     req-02-*.png
     req-03-*.png

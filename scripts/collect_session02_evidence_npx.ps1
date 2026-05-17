@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-New-Item -ItemType Directory -Force -Path evidence\buoi-02\mock-screenshots | Out-Null
+New-Item -ItemType Directory -Force -Path evidence\buoi-02\screenshorts | Out-Null
 
 Write-Host "[Lab02] Collecting tool versions..."
 $versions = @()
