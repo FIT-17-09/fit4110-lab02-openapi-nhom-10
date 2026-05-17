@@ -19,4 +19,4 @@
 - [x] Có sign-off Provider, Consumer, Witness.
 - [x] Đã hoàn thiện `VERSIONING.md` cho bài tập về nhà.
 
-Trạng thái hiện tại: Contract và evidence đã hoàn thiện xuất sắc 100%. Sẵn sàng nộp bài.
+Trạng thái hiện tại: Contract và evidence đã hoàn thiện xuất sắc 100%. Đã nộp bài và đồng bộ hoàn tất lên GitHub Classroom.
