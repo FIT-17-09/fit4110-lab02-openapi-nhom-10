@@ -1,3 +1,5 @@
+# Kịch bản thu thập báo cáo minh chứng tự động
+# Sử dụng: .\scripts\collect_session02_evidence.ps1
 $ErrorActionPreference = "Stop"
 
 New-Item -ItemType Directory -Force -Path evidence\buoi-02\screenshorts | Out-Null

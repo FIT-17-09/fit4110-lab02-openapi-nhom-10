@@ -1,3 +1,5 @@
+# Kịch bản kiểm thử tự động mock server bằng curl
+# Sử dụng: .\scripts\test_mock_with_curl.ps1
 $ErrorActionPreference = "Stop"
 
 $BaseUrl = if ($env:BASE_URL) { $env:BASE_URL } else { "http://localhost:4010" }
