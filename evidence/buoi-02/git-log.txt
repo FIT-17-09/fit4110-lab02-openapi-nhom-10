@@ -1,4 +1,9 @@
-﻿0bd804f submit: completed and perfected lab 02 API contract and evidence with zero warnings
+﻿e1fa453 scripts: add usage comments to PowerShell scripts
+abe6503 evidence: update submission status in checklist
+13af75e docs: finalize API request and analysis documents
+89338ae docs: add API contract status card to root README
+a6a065c refactor: rename mock-screenshots folder to screenshorts as requested
+0bd804f submit: completed and perfected lab 02 API contract and evidence with zero warnings
 27dc5a7 add deadline
 a4ee739 Revise dependency map and pairing matrix documentation
 41a4b1e Initial commit
