@@ -1,11 +1,18 @@
 # Phân tích yêu cầu — vai Provider
 
-- Cặp đàm phán:
-- Product: A / B
-- Provider service:
-- Consumer service:
-- Người viết:
-- Ngày:
+- Cặp đàm phán: pair-01-camera-ai-vision
+- Product: Smart Campus
+- Provider service: AI Vision Service
+- Consumer service: Camera Stream Service
+- Người viết: Nhóm 10
+- Ngày: 2026-05-17
+
+---
+
+## 0. Service boundary
+
+- Upstream: Camera Stream gửi frame hoặc metadata khi phát hiện motion.
+- Downstream: AI Vision trả kết quả detect cho Camera Stream để xử lý tiếp.
 
 ---
 
@@ -13,8 +20,11 @@
 
 | Resource | Mô tả | Thuộc tính bắt buộc | Thuộc tính tùy chọn |
 |---|---|---|---|
-| `<Resource 1>` |  |  |  |
-| `<Resource 2>` |  |  |  |
+| DetectRequest | Yêu cầu AI Vision phân tích frame | camera_id, correlation_id, timestamp, frame_url | mime_type, confidence_threshold |
+| DetectionResult | Kết quả detect trả ngay cho Camera Stream | detection_id, camera_id, correlation_id, anomaly_detected, objects, risk_level, confidence_score, processed_at | model_version, note |
+| Finding | Một object hoặc một người được phát hiện | finding_type, label, confidence | bounding_box, person_id, object_category |
+| ModelInfo | Thông tin model AI đang chạy | model_id, version, supported_labels, last_updated | input_modes |
+| HealthStatus | Trạng thái service | status, service, time | — |
 
 ---
 
@@ -22,8 +32,10 @@
 
 | Method | Path | Mục đích | Consumer gọi khi nào? |
 |---|---|---|---|
-| POST | `/...` |  |  |
-| GET | `/.../{id}` |  |  |
+| GET | `/health` | Kiểm tra trạng thái service | Trước khi gửi frame hoặc khi monitor |
+| POST | `/vision/detect` | Nhận frame URL từ Camera Stream và trả kết quả detect đồng bộ | Khi Camera phát hiện motion |
+| GET | `/vision/detections/{detectionId}` | Lấy chi tiết một detection đã trả về trước đó | Khi cần audit/tra cứu |
+| GET | `/vision/models/info` | Lấy thông tin model AI đang dùng | Khi muốn kiểm tra khả năng hỗ trợ |
 
 ---
 
@@ -33,12 +45,11 @@ Tối thiểu 5 case.
 
 | Status | Tình huống | Response body dự kiến |
 |---:|---|---|
-| 400 | Payload sai định dạng | `Problem` |
-| 401 | Thiếu Bearer token | `Problem` |
-| 403 | Token hợp lệ nhưng không có quyền | `Problem` |
-| 404 | Resource không tồn tại | `Problem` |
-| 409 | Xung đột nghiệp vụ | `Problem` |
-| 422 | Dữ liệu đúng JSON nhưng vi phạm nghiệp vụ | `Problem` |
+| 400 | Payload sai định dạng JSON hoặc thiếu trường bắt buộc | `Problem` với `errors[]` chỉ rõ field lỗi |
+| 401 | Thiếu hoặc sai Bearer token | `Problem` |
+| 404 | `detection_id` không tồn tại trong hệ thống | `Problem` |
+| 422 | `frame_url` không đúng pattern hoặc nội dung ảnh không thể detect | `Problem` |
+| 500 | Lỗi nội bộ AI model hoặc downstream service | `Problem` |
 
 ---
 
@@ -46,17 +57,19 @@ Tối thiểu 5 case.
 
 Ghi rõ những điểm user story chưa nói nhưng Provider cần giả định.
 
-- Giả định 1:
-- Giả định 2:
-- Giả định 3:
+- AI Vision xử lý đồng bộ và trả kết quả ngay, không cần polling.
+- `correlation_id` là bắt buộc để Camera Stream đối chiếu audit và chống xử lý lặp.
+- `frame_url` là input chính; nếu ảnh không hợp lệ thì trả `422`.
+- Khi không có anomaly, `confidence_score` nhận `null` và `risk_level` mặc định `LOW`.
+- `Finding` được mô hình hóa bằng `oneOf` + `discriminator` để tách `PersonFinding` và `ObjectFinding`.
 
 ---
 
 ## 5. Câu hỏi cho Consumer
 
-1. 
-2. 
-3. 
+1. Camera Stream muốn gửi `frame_url` hay có cần fallback sang base64/multipart không?
+2. Khi `risk_level` là `LOW`, Consumer có muốn `objects` là mảng rỗng hay vẫn gửi các finding mức thấp?
+3. Camera Stream có cần `model_id` và `supported_labels` để hiển thị trạng thái model không?
 
 ---
 
@@ -64,5 +77,6 @@ Ghi rõ những điểm user story chưa nói nhưng Provider cần giả địn
 
 | Rủi ro | Tác động | Đề xuất xử lý |
 |---|---|---|
-| Tên field không thống nhất | Consumer parse lỗi | Chốt naming trong `openapi.yaml` |
-| Payload lớn | Timeout/mock lỗi | Thống nhất content-type và size limit |
+| URL ảnh không truy cập được | Trả 422, Camera Stream phải retry | Chốt trước `frame_url` phải nằm trong mạng nội bộ |
+| Trùng request khi retry | Kết quả bị tạo lặp | Bắt buộc `correlation_id` |
+| Không thống nhất giá trị `confidence_score` khi không có anomaly | Consumer hiểu sai logic | Quy định `confidence_score = null` và `risk_level = LOW` |

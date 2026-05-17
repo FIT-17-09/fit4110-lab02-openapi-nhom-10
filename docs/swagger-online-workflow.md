@@ -65,7 +65,7 @@ Mở terminal thứ hai và gọi thử:
 
 ```bash
 curl -i http://localhost:4010/health
-curl -i http://localhost:4010/alerts/recent -H "Authorization: Bearer test-token"
+curl -i http://localhost:4010/api/v1/vision/detect -X POST -H "Authorization: Bearer test-token" -H "Content-Type: application/json" -d '{"camera_id":"CAM-001","correlation_id":"550e8400-e29b-41d4-a716-446655440000","timestamp":"2026-05-17T08:00:00Z","frame_url":"https://cdn.campus.local/frames/cam-001-0001.jpg"}'
 ```
 
 Hoặc chạy script mẫu:

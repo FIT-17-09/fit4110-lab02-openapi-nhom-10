@@ -8,37 +8,36 @@ echo "[Lab02] Testing Prism mock server at $BASE_URL"
 echo
 
 echo "[1/5] Happy path: GET /health"
-curl -i "$BASE_URL/health"
+curl --silent --show-error -i "$BASE_URL/health"
 echo "
 ---"
 
-echo "[2/5] Happy path: GET /alerts/recent"
-curl -i "$BASE_URL/alerts/recent" -H "$AUTH_HEADER"
-echo "
----"
-
-echo "[3/5] Happy path: POST /alerts"
-curl -i -X POST "$BASE_URL/alerts" \
+echo "[2/5] Happy path: POST /vision/detect"
+curl --silent --show-error -i -X POST "$BASE_URL/vision/detect" \
   -H "$AUTH_HEADER" \
   -H "Content-Type: application/json" \
   -d '{
-    "sourceService": "core-business",
-    "alertType": "UNAUTHORIZED_ACCESS",
-    "severity": "HIGH",
-    "message": "Phat hien truy cap trai phep tai cong chinh",
-    "relatedEventId": "0196fb3d-4ad7-7d1e-9f49-5d5148d2babc"
+    "camera_id": "CAM-001",
+    "correlation_id": "550e8400-e29b-41d4-a716-446655440000",
+    "timestamp": "2026-05-17T08:00:00Z",
+    "frame_url": "https://cdn.campus.local/frames/cam-001-0001.jpg"
   }'
 echo "
 ---"
 
-echo "[4/5] Error case: GET /alerts/recent without token"
-curl -i "$BASE_URL/alerts/recent"
+echo "[3/5] Happy path: GET /vision/detections/{detectionId}"
+curl --silent --show-error -i "$BASE_URL/vision/detections/0196fb3d-4ad7-7d1e-9f49-5d5148d2babc" -H "$AUTH_HEADER"
 echo "
 ---"
 
-echo "[5/5] Error case: POST /alerts invalid payload"
-curl -i -X POST "$BASE_URL/alerts" \
+echo "[4/5] Error case: POST /vision/detect invalid payload"
+curl --silent --show-error -i -X POST "$BASE_URL/vision/detect" \
   -H "$AUTH_HEADER" \
   -H "Content-Type: application/json" \
-  -d '{ "alertType": 12345 }'
+  -d '{ "camera_id": "CAM-001" }'
+echo "
+---"
+
+echo "[5/5] Error case: GET /vision/detections/{detectionId} with invalid UUID"
+curl --silent --show-error -i "$BASE_URL/vision/detections/not-a-uuid" -H "$AUTH_HEADER"
 echo
